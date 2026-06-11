@@ -35,7 +35,7 @@ const SLIDER_WIDTH = SCREEN_WIDTH * 0.82;
 const BUTTON_SIZE = 56;
 const TRACK_PADDING = 5;
 const MAX_DRAG = SLIDER_WIDTH - BUTTON_SIZE - (TRACK_PADDING * 2); 
-const SWIPE_THRESHOLD = MAX_DRAG * 0.75; 
+const SWIPE_THRESHOLD = MAX_DRAG * 0.40; 
 
 // Kanangal Brand Color
 const BRAND_GOLD = '#c5a880'; // Premium warm champagne gold (NEOM/Saudi style)
@@ -365,49 +365,39 @@ export default function App() {
           stopMarquee(); 
 
           Animated.parallel([
-            // 1. Snap slider button
+            // 1. Snap slider button fully to the right end
             Animated.timing(panX, {
               toValue: MAX_DRAG,
-              duration: 150,
+              duration: 250,
+              easing: Easing.out(Easing.cubic),
               useNativeDriver: true,
             }),
 
-            // 2. REVERSE scroll the marquee photo columns rapidly (Backward slide)
-            Animated.timing(scrollCol1, {
-              toValue: 200, 
-              duration: 650,
-              easing: Easing.out(Easing.ease),
-              useNativeDriver: true,
-            }),
-            Animated.timing(scrollCol2, {
-              toValue: -TOTAL_SCROLL_DISTANCE - 200, 
-              duration: 650,
-              easing: Easing.out(Easing.ease),
-              useNativeDriver: true,
-            }),
-
-            // 3. Zoom-in/scale portal animation from screen center
+            // 2. Zoom-in/scale portal animation from screen center
             Animated.timing(scaleAnim, {
               toValue: 3.5, 
-              duration: 900,
+              duration: 700,
+              easing: Easing.out(Easing.cubic),
               useNativeDriver: true,
             }),
             Animated.timing(gridRotation, {
               toValue: 1.5,
-              duration: 900,
-              easing: Easing.out(Easing.back(1.2)),
+              duration: 700,
+              easing: Easing.out(Easing.cubic),
               useNativeDriver: true,
             }),
             Animated.timing(gridTranslateY, {
-              toValue: 1.5 * -SCREEN_HEIGHT,
-              duration: 900,
-              easing: Easing.inOut(Easing.ease),
+              toValue: -SCREEN_HEIGHT * 1.2,
+              duration: 700,
+              easing: Easing.out(Easing.cubic),
               useNativeDriver: true,
             }),
-            // 4. Fade layout
+
+            // 3. Fade layout smoothly
             Animated.timing(fadeAnim, {
               toValue: 0,
-              duration: 750,
+              duration: 600,
+              easing: Easing.out(Easing.ease),
               useNativeDriver: true,
             }),
 
