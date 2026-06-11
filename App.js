@@ -209,6 +209,8 @@ export default function App() {
   const scrollCol2 = useRef(new Animated.Value(-TOTAL_SCROLL_DISTANCE)).current;
   const fadeAnim = useRef(new Animated.Value(1)).current; 
   const scaleAnim = useRef(new Animated.Value(1)).current; 
+  const gridRotation = useRef(new Animated.Value(0)).current;
+  const gridTranslateY = useRef(new Animated.Value(0)).current;
   const arrowTranslation = useRef(new Animated.Value(0)).current; 
   const arrowOpacity = useRef(new Animated.Value(0)).current;
 
@@ -390,6 +392,18 @@ export default function App() {
               duration: 900,
               useNativeDriver: true,
             }),
+            Animated.timing(gridRotation, {
+              toValue: 1.5,
+              duration: 900,
+              easing: Easing.out(Easing.back(1.2)),
+              useNativeDriver: true,
+            }),
+            Animated.timing(gridTranslateY, {
+              toValue: 1.5 * -SCREEN_HEIGHT,
+              duration: 900,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
             // 4. Fade layout
             Animated.timing(fadeAnim, {
               toValue: 0,
@@ -511,7 +525,23 @@ if (!isReady) {
         <View style={styles.marqueeBackground}>
           <View style={styles.marqueeOverlay} />
           
-          <View style={styles.marqueeGrid}>
+          <Animated.View 
+            style={[
+              styles.marqueeGrid,
+              {
+                transform: [
+                  { rotate: '-10deg' },
+                  { scale: 1.15 },
+                  { rotate: gridRotation.interpolate({
+                      inputRange: [0, 1.5],
+                      outputRange: ['0deg', '45deg']
+                    })
+                  },
+                  { translateY: gridTranslateY }
+                ]
+              }
+            ]}
+          >
             {/* Column 1 (Scrolls Upward) */}
             <Animated.View style={[styles.marqueeColumn, { transform: [{ translateY: scrollCol1 }] }]}>
               {MEMORY_PHOTOS_COL1.map((url, i) => (
@@ -538,7 +568,7 @@ if (!isReady) {
                 </View>
               ))}
             </Animated.View>
-          </View>
+          </Animated.View>
         </View>
 
         <SafeAreaView style={styles.onboardingContent}>
@@ -966,7 +996,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: SCREEN_WIDTH * 1.35, 
     height: SCREEN_HEIGHT * 1.35,
-    transform: [{ rotate: '-10deg' }, { scale: 1.15 }], 
     alignSelf: 'center',
     paddingHorizontal: 10,
   },
