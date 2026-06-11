@@ -575,9 +575,9 @@ if (!isReady) {
                       }
                     ]}
                   >
-                  <Text style={guideArrowStyle}>ΓÇ║</Text>
-                  <Text style={guideArrowStyle}>ΓÇ║</Text>
-                  <Text style={guideArrowStyle}>ΓÇ║</Text>
+                  <Text style={guideArrowStyle}>›</Text>
+                  <Text style={guideArrowStyle}>›</Text>
+                  <Text style={guideArrowStyle}>›</Text>
                 </Animated.View>
               </Animated.View>
 
