@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Kanangal-mobile",
+    "slug": "Kanangal-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.anonymous.Kanangalmobile"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d89f2d33-aafe-4988-9e5f-1b3284e7126b"
+      }
+    },
+    "plugins": [
+      "expo-sharing",
+      "expo-font"
+    ]
+  }
+}
