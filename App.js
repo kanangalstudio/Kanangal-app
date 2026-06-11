@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   SafeAreaView, 
   StyleSheet, 
@@ -199,6 +199,8 @@ export default function App() {
     Montserrat_700Bold,
   });
 
+  const isReady = Platform.OS === 'web' ? true : fontsLoaded;
+
   // Slider dragging value
   const panX = useRef(new Animated.Value(0)).current; 
 
@@ -306,7 +308,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (showOnboarding && fontsLoaded) {
+    if (showOnboarding && isReady) {
       startMarquee();
       startArrowAnimations();
     }
@@ -314,7 +316,7 @@ export default function App() {
       stopMarquee();
       stopArrowAnimations();
     };
-  }, [showOnboarding, fontsLoaded]);
+  }, [showOnboarding, isReady]);
 
   // Handle hardware back button on Android
   useEffect(() => {
@@ -477,7 +479,7 @@ export default function App() {
       </View>
     );
   }
-if (!fontsLoaded) {
+if (!isReady) {
     return (
       <View style={styles.loaderContainer}>
         <ActivityIndicator size="large" color={BRAND_GOLD} />
