@@ -358,6 +358,7 @@ export default function App() {
         panX.flattenOffset();
 
         if (panX._value > SWIPE_THRESHOLD) {
+          // Snap fully to the right end & initiate REVERSE portal zoom transition
           setIsTransitioning(true);
           stopMarquee(); 
 
@@ -368,14 +369,59 @@ export default function App() {
               duration: 150,
               useNativeDriver: true,
             }),
-            // 2. Fade layout smoothly
-            Animated.timing(fadeAnim, {
-              toValue: 0,
-              duration: 250,
+
+            // 2. REVERSE scroll the marquee photo columns rapidly (Backward slide)
+            Animated.timing(scrollCol1, {
+              toValue: 200, 
+              duration: 650,
+              easing: Easing.out(Easing.ease),
               useNativeDriver: true,
             }),
+            Animated.timing(scrollCol2, {
+              toValue: -TOTAL_SCROLL_DISTANCE - 200, 
+              duration: 650,
+              easing: Easing.out(Easing.ease),
+              useNativeDriver: true,
+            }),
+
+            // 3. Zoom-in/scale portal animation from screen center
+            Animated.timing(scaleAnim, {
+              toValue: 3.5, 
+              duration: 900,
+              useNativeDriver: true,
+            }),
+            // 4. Fade layout
+            Animated.timing(fadeAnim, {
+              toValue: 0,
+              duration: 750,
+              useNativeDriver: true,
+            }),
+
+            // 5. Staggered ripples in brand teal
+            Animated.sequence([
+              Animated.parallel([
+                Animated.timing(ripple1Scale, { toValue: 4.5, duration: 800, useNativeDriver: true }),
+                Animated.timing(ripple1Opacity, { toValue: 1, duration: 250, useNativeDriver: true })
+              ]),
+              Animated.timing(ripple1Opacity, { toValue: 0, duration: 550, useNativeDriver: true })
+            ]),
+            Animated.sequence([
+              Animated.delay(150),
+              Animated.parallel([
+                Animated.timing(ripple2Scale, { toValue: 4.5, duration: 800, useNativeDriver: true }),
+                Animated.timing(ripple2Opacity, { toValue: 1, duration: 250, useNativeDriver: true })
+              ]),
+              Animated.timing(ripple2Opacity, { toValue: 0, duration: 550, useNativeDriver: true })
+            ]),
+            Animated.sequence([
+              Animated.delay(300),
+              Animated.parallel([
+                Animated.timing(ripple3Scale, { toValue: 4.5, duration: 800, useNativeDriver: true }),
+                Animated.timing(ripple3Opacity, { toValue: 1, duration: 250, useNativeDriver: true })
+              ]),
+              Animated.timing(ripple3Opacity, { toValue: 0, duration: 550, useNativeDriver: true })
+            ])
           ]).start(() => {
-            setIsTransitioning(false);
             setShowOnboarding(false);
           });
         } else {
